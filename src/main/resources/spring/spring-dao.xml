@@ -25,7 +25,7 @@
         <!-- 引入mapper文件 -->
         <property name="mapperLocations">
             <list>
-                <value>classpath:mapper/*.xml</value>
+                <value>classpath:com/csm/*/mapper/*.xml</value>
             </list>
         </property>
     </bean>
@@ -33,7 +33,7 @@
     <!-- mapper接口代理对像创建由spring完成 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 扫描mapper包下接口，生成代理对像 -->
-        <property name="basePackage" value="com.qf.mapper"></property>
+        <property name="basePackage" value="com.csm.*.mapper"></property>
         <!-- 引入sqlSessionFacotry -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
     </bean>

@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 给类起别名 -->
 	<typeAliases>
 		<!--&lt;!&ndash; 该包下的别名默认为类名 &ndash;&gt;-->
-		<package name="com.qf.model"/>
+		<package name="com.csm.model"/>
 	</typeAliases>
 	
 </configuration>
