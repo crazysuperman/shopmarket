@@ -2,7 +2,7 @@ package com.csm.model;
 
 import java.util.Date;
 
-public class ProductDo {
+public class ProductDO {
     private Integer pid;
     private String pname;
     private Double price;
