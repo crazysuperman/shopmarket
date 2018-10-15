@@ -6,6 +6,53 @@
          version="3.1"
          metadata-complete="true">
 
-  <display-name>Archetype Created Web Application</display-name>
+    <display-name>Archetype Created Web Application</display-name>
+    <!-- 解决中文乱码问题 -->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
 
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 配置监听器,当项目运行在服务器时,将springmvc.xml容器初始化 -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring/spring-*.xml</param-value>
+    </context-param>
+
+    <!-- 配置前端控制器 -->
+    <servlet>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/spring-mvc.xml</param-value>
+        </init-param>
+    </servlet>
+    <!-- url-pattern匹配路径规则：
+     1*.后缀名:用来匹配特定后缀名的url，如*.do,*.html,*.action
+     2./: 用来匹配除了.jsp以外的其他所有url
+    3./xxx/*.后缀：用来匹配某个路径下有特定后缀名的url
+      注意：不能使用/*,因为会匹配.jsp后缀，被误认为是控制器-->
+    <servlet-mapping>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <!-- 使用/表示除了访问jsp文件.其他都要通过前端控制器 -->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 </web-app>
