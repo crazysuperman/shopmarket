@@ -193,7 +193,6 @@
 
     </dependencies>
 
-
     <build>
         <finalName>shop-market</finalName>
         <plugins>
