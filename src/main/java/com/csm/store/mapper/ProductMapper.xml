@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csm.store.mapper.ProductMapper">
+    <select id="getProduct" resultType="ProductDO" parameterType="ProductDO">
+        SELECT pid,pname,price,pimage,pdesc,pdate,cid,sid FROM tb_product WHERE pid=${pid}
+    </select>
+    <select id="countProduct" resultType="INTEGER">
+        select COUNT(pid) from tb_product WHERE pname LIKE '%${search}%' AND sid=#{sid}
+    </select>
+    <select id="listProduct" resultType="ProductDO">
+        SELECT pid,pname,price,pimage,pdesc,pdate,cid,sid FROM tb_product WHERE sid=${sid} AND pname LIKE '%${search}%' order by pid
+        <choose>
+            <when test="order=='desc'">
+                desc
+            </when>
+            <when test="order=='asc'">
+                asc
+            </when>
+        </choose>
+        limit ${offset},${pageCount}
+    </select>
+    <delete id="deleteProduct" parameterType="ProductDO">
+        DELETE FROM tb_product WHERE pid=#{pid}
+    </delete>
+    <insert id="saveProduct" parameterType="ProductDO">
+        INSERT INTO tb_product(pname,price,pimage,pdesc,pdate,cid,sid) VALUES (#{pname},#{price},#{pimage},#{pdesc},#{pdate},#{cid},#{sid})
+    </insert>
+    <update id="updateProduct" parameterType="ProductDO">
+        update tb_product
+        <set>
+            pdate=#{pdate},
+            <if test="pname != null and pname !=''">
+                pname=#{pname},
+            </if>
+            <if test="price != null and price !=''">
+                price=#{price},
+            </if>
+            <if test="pimage != null and pimage !=''">
+                pimage=#{pimage},
+            </if>
+            <if test="pdesc != null and pdesc !=''">
+                pdesc=#{pdesc},
+            </if>
+            <if test="cid != null and cid !=''">
+                pimage=#{pimage},
+            </if>
+            <if test="sid != null and sid !=''">
+                sid=#{sid},
+            </if>
+        </set>
+        where pid=#{pid}
+    </update>
+</mapper>

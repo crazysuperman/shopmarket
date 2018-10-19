@@ -1,13 +1,22 @@
 package com.csm.model;
 
 public class CartDO {
+    private Integer id;
     private Integer uid;
     private String pname;
     private String pimage;
     private Double price;
     private Integer count;
-    private Integer total_price;
+    private Double total_price;
     private Integer pid;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getUid() {
         return uid;
@@ -49,11 +58,11 @@ public class CartDO {
         this.count = count;
     }
 
-    public Integer getTotal_price() {
+    public Double getTotal_price() {
         return total_price;
     }
 
-    public void setTotal_price(Integer total_price) {
+    public void setTotal_price(Double total_price) {
         this.total_price = total_price;
     }
 

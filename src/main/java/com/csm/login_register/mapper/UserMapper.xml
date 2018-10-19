@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.csm.login_register.mapper.UserMapper">
+    <!--用户登录/验证用户名是否存在  通过用户名查询-->
+    <select id="getUserByUsername" resultType="UserDO" parameterType="UserDO">
+        SELECT uid,username,password,sex,phone,address,isseller,email FROM  tb_user WHERE username=#{username}
+    </select>
+
+    <!--验证邮箱是否被使用-->
+    <select id="getUserByEmail" resultType="UserDO" parameterType="UserDO">
+        SELECT uid,username,password,sex,phone,address,isseller,email FROM  tb_user WHERE email=#{email}
+    </select>
+
+    <!--验证手机号是否被使用-->
+    <select id="getUserByPhone" resultType="UserDO" parameterType="UserDO">
+        SELECT uid,username,password,sex,phone,address,isseller,email FROM  tb_user WHERE phone=#{phone}
+    </select>
+
+    <!--买家注册-->
+    <insert id="saveUserBuyer" parameterType="UserDO">
+        INSERT  INTO  tb_user(username,password,sex,phone,address,isseller,email) VALUES(#{username},#{password},#{sex},#{phone},#{address},1,#{email})
+    </insert>
+
+    <!--卖家注册-->
+    <insert id="saveUserSeller" parameterType="UserDO">
+        INSERT  INTO  tb_user(username,password,sex,phone,address,isseller,email) VALUES(#{username},#{password},#{sex},#{phone},#{address},0,#{email})
+    </insert>
+
+    <!--查询所有非管理员用户-->
+    <select id="getUsers" resultType="UserDO">
+        SELECT uid,username,password,sex,phone,address,isseller,email FROM  tb_user where username like "%${search}%" limit #{offset},#{limit}
+    </select>
+
+    <!--查询所有非管理员用户数量-->
+    <select id="getCount" resultType="int">
+        SELECT COUNT(uid) FROM  tb_user where username like "%${search}%"
+    </select>
+
+    <!--删除用户-->
+    <delete id="removeUser" parameterType="UserDO">
+        DELETE FROM tb_user where uid=#{uid}
+    </delete>
+    
+    <!--添加用户-->
+    <insert id="saveUser" parameterType="UserDO">
+         INSERT  INTO  tb_user(username,password,sex,phone,address,isseller,email) VALUES(#{username},#{password},#{sex},#{phone},#{address},#{isseller},#{email})
+    </insert>
+
+    <!--修改用户-->
+    <update id="updateUser" parameterType="UserDO">
+        UPDATE tb_user set username=#{username},password=#{password},sex=#{sex},phone=#{phone},address=#{address},isseller=#{isseller},email=#{email} where uid=#{uid}
+    </update>
+
+    <!--通过uid查询用户-->
+    <select id="getUserByUid" resultType="UserDO" parameterType="UserDO">
+        SELECT uid,username,password,sex,phone,address,isseller,email FROM  tb_user WHERE uid=#{uid}
+    </select>
+</mapper>

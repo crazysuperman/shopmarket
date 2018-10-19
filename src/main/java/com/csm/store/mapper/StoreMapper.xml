@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csm.store.mapper.StoreMapper">
+    <resultMap id="BaseResultMap" type="StoreDO">
+        <id column="sid" jdbcType="INTEGER" property="id" />
+        <result column="sname" jdbcType="VARCHAR" property="sname" />
+        <result column="sdesc" jdbcType="VARCHAR" property="sdesc" />
+    </resultMap>
+    <select id="getStoreById" resultMap="BaseResultMap">
+        SELECT sid,sname,sdesc FROM tb_store WHERE sid=#{id}
+    </select>
+    <select id="countStore" resultType="INTEGER">
+        select COUNT(sid) from tb_store WHERE sname LIKE '%${search}%'
+    </select>
+    <select id="listStore" resultMap="BaseResultMap">
+        select sid,sname,sdesc from tb_store WHERE sname LIKE '%${search}%' order by sid
+        <choose>
+            <when test="order=='desc'">
+                desc
+            </when>
+            <when test="order=='asc'">
+                asc
+            </when>
+        </choose>
+        limit ${offset},${pageCount}
+    </select>
+    <insert id="saveStore" parameterType="StoreDO">
+        INSERT INTO tb_store (sname,sdesc) VALUES (#{sname},#{sdesc})
+    </insert>
+    <update id="updateStore" parameterType="StoreDO">
+        update tb_store
+        <set>
+            <if test="sname != null and sname !=''">
+                sname=#{sname},
+            </if>
+            <if test="sdesc != null and sdesc !=''">
+                sdesc=#{sdesc},
+            </if>
+        </set>
+        where sid=#{id}
+    </update>
+    <delete id="removeStore" parameterType="StoreDO">
+        DELETE FROM tb_store WHERE sid=#{id}
+    </delete>
+</mapper>

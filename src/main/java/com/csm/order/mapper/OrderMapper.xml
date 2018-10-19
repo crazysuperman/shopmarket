@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.csm.order.mapper.OrderMapper">
+    <select id="selectById" parameterType="Order" resultType="Order">
+        select * from tb_ORDER where id=#{id}
+    </select>
+    <select id="selectByCount" resultType="int">
+        select count(*) from tb_ORDER
+        <where>
+            <if test="search!=null and search!=''">
+                userName like'%${search}%'
+            </if>
+        </where>
+    </select>
+    <select id="selectAll"  resultType="Order">
+        select * from tb_order
+        <where>
+            <if test="search!=null and search!=''">
+                userName like'%${search}%'
+            </if>
+        </where>
+       limit #{offset},#{limit}
+    </select>
+    <update id="update" parameterType="Order">
+        update tb_ORDER set orderPrice=#{orderPrice},payment=#{payment},sendWay=#{sendWay},userphone=#{userphone},useraddress=#{useraddress} where id=#{id}
+    </update>
+    <delete id="delete" parameterType="Order" >
+        delete from tb_ORDER where id=#{id}
+    </delete>
+    <insert id="insert" parameterType="Order" >
+        insert into tb_ORDER (id,orderNumber,userName,orderPrice,orderDate,payment,sendWay,userphone,useraddress) values(null,#{orderNumber},#{userName},#{orderPrice},#{orderDate},#{payment},#{sendWay},#{userphone},#{useraddress})
+    </insert>
+</mapper>

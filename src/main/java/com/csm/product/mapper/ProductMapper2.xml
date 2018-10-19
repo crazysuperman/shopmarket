@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csm.product.mapper.ProductMapper2">
+
+    <!-- 查询用户数 -->
+    <select id="selectTotalRecouds" resultType="java.lang.Integer" parameterType="com.csm.product.vo.PageProduct">
+        SELECT COUNT(*) FROM
+        tb_product
+        <where>
+            <if test="search!='' &amp; search!=null &amp; search!='-1'">
+                pname LIKE CONCAT('%', #{search}, '%')
+            </if>
+            <if test="headPrice!=-1">
+                AND price BETWEEN #{headPrice} AND #{footPrice}
+            </if>
+            <if test="cid!=-1 &amp; cid!=0">
+                AND cid=#{cid}
+            </if>
+
+        </where>
+    </select>
+
+    <!-- 分页查询  查询每页的用户-->
+    <select id="selectPageProduct" resultType="ProductDO" parameterType="com.csm.product.vo.PageProduct">
+        select pid,pname,price,pimage,pdesc,pdate,cid,sid from tb_product
+        <where>
+            <if test="search!='' &amp; search!=null &amp; search!='-1' ">
+                pname LIKE CONCAT('%', #{search}, '%')
+            </if>
+            <if test="headPrice!=-1">
+                AND price BETWEEN #{headPrice} AND #{footPrice}
+            </if>
+            <if test="cid!=-1 &amp; cid!=0">
+                AND cid=#{cid}
+            </if>
+
+        </where>
+        ORDER BY pid desc limit #{offset},#{pageSize};
+    </select>
+
+
+</mapper>
+
+
+
+
